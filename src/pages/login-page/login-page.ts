@@ -6,7 +6,7 @@ import teaching from '../../assets/teaching.mp4';
 import { loginPageStyles } from './login-page.styles';
 import { Router } from '@vaadin/router';
 import axios from 'axios';
-import { backendAuthHost } from '../../utils/utils';
+// import { backendAuthHost } from '../../utils/utils';
 import { userStore } from '../../store/user-store';
 
 @customElement('login-page')

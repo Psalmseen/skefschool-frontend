@@ -8,9 +8,8 @@ import student from '../../assets/student.jpg';
 import { classMap } from 'lit/directives/class-map.js';
 import { authFetch } from '../../utils/customAPI';
 import { IUser } from '../../utils/interfaces';
-import { backendAuthHost, backendHost } from '../../utils/utils';
+import { backendHost } from '../../utils/utils';
 import Cookies from 'universal-cookie';
-import axios from 'axios';
 
 const cookies = new Cookies();
 @customElement('dashboard-page')
