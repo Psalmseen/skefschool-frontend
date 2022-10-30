@@ -1,3 +1,3 @@
 export declare const sanitizeHTML: (html: string) => string;
-export declare const backendHost = "http://localhost:5000";
-export declare const backendAuthHost = "http://localhost:5050";
+export declare const backendHost = "https://dev-skefschool.netlify.app";
+export declare const backendAuthHost = "https://auth-skefschool.netlify.app";

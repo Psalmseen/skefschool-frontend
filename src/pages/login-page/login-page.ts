@@ -42,7 +42,7 @@ export class LoginPage extends LitElement {
         {
           ...this.userCredentials,
         },
-        { withCredentials: true, credentials: 'true' }
+        { withCredentials: true }
       );
       console.log({ data });
 
