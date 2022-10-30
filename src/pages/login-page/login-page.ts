@@ -6,7 +6,7 @@ import teaching from '../../assets/teaching.mp4';
 import { loginPageStyles } from './login-page.styles';
 import { Router } from '@vaadin/router';
 import axios from 'axios';
-// import { backendAuthHost } from '../../utils/utils';
+import { backendAuthHost } from '../../utils/utils';
 import { userStore } from '../../store/user-store';
 
 @customElement('login-page')
@@ -38,12 +38,14 @@ export class LoginPage extends LitElement {
     console.log('here');
     try {
       const { data } = await axios.post(
-        `http://localhost:5050/api/login`,
+        `${backendAuthHost}/api/login`,
         {
           ...this.userCredentials,
         },
-        { withCredentials: true }
+        { withCredentials: true, credentials: 'true' }
       );
+      console.log({ data });
+
       userStore.setIsLoggedin(true);
       await userStore.setUser({ ...data.user, accessToken: data.accessToken });
       Router.go('/dashboard');
