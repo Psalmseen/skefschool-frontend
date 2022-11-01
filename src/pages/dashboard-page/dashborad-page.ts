@@ -8,20 +8,29 @@ import student from '../../assets/student.jpg';
 import { classMap } from 'lit/directives/class-map.js';
 import { authFetch } from '../../utils/customAPI';
 import { IUser } from '../../utils/interfaces';
-import { backendHost } from '../../utils/utils';
-import Cookies from 'universal-cookie';
+import { backendAuthHost, backendHost } from '../../utils/utils';
+import axios from 'axios';
+// import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 @customElement('dashboard-page')
 export class DashboardPage extends MobxLitElement {
   static styles?: CSSResultGroup = dashboardPageStyles;
   @state() isChangeImgOpen = false;
   connectedCallback(): void {
     super.connectedCallback();
+    console.log(userStore.isloggedIn);
     if (!userStore.isloggedIn) {
       Router.go('login');
     }
-    cookies.remove('Name');
+    // setInterval(async () => {
+    //   console.log('interval set');
+    //   const { data } = await axios.get(`${backendAuthHost}/token`, {
+    //     withCredentials: true,
+    //   });
+    //   console.log(data);
+    // }, 4 * 1000);
+    // cookies.remove('Name');
     // console.log(Cookies);
   }
   handleChangeImage() {
@@ -34,14 +43,19 @@ export class DashboardPage extends MobxLitElement {
         const file = files[0];
         const data = new FormData();
         data.append('image', file);
-        // setInterval(() => {
-        //   console.log('interval set');
-        //   axios.get(`${backendAuthHost}/token`, {
-        //     withCredentials: true,
-        //   });
-        // }, 4  * 1000);
+        setInterval(async () => {
+          console.log('interval set');
+          const { data } = await axios.get(`${backendAuthHost}/token`, {
+            withCredentials: true,
+          });
+          console.log(data);
+        }, 4 * 1000);
 
-        await authFetch.post('/upload-profile-image', data);
+        const { data: fileUpload } = await authFetch.post(
+          '/upload-profile-image',
+          data
+        );
+        console.log(fileUpload);
         const {
           data: { user },
         } = await authFetch.get('/user');

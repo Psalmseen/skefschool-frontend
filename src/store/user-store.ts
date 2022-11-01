@@ -8,20 +8,24 @@ class UserStore {
   }
   isloggedIn = false;
   user: null | IUser = null;
-  setIsLoggedin(status: boolean) {
-    this.isloggedIn = status;
-    localStorage.setItem('userLoggedIn', JSON.stringify(status));
+  setIsLoggedin() {
+    this.isloggedIn = !!JSON.parse(localStorage.getItem('user') || '{}')?.email;
+
+    localStorage.setItem('userLoggedIn', JSON.stringify(this.isloggedIn));
   }
   loadUser() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const isUserLoggedIn = JSON.parse(
-      localStorage.getItem('userLoggedIn') || 'false'
-    );
+
     this.setUser(user);
-    this.setIsLoggedin(isUserLoggedIn);
+    this.setIsLoggedin();
   }
-  async setUser(user: IUser) {
-    this.user = { ...this.user, ...user };
+  async setUser(user: IUser | null) {
+    this.user = user ? { ...this.user, ...user } : user;
+    localStorage.setItem('user', JSON.stringify(this.user));
+    this.setIsLoggedin();
+  }
+  async deleteUser() {
+    this.setUser(null);
     localStorage.setItem('user', JSON.stringify(this.user));
   }
 }

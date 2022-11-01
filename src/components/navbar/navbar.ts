@@ -7,6 +7,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { userStore } from '../../store/user-store';
 import '../button/button';
 import 'lit-media-query/lit-media-query';
+import axios from 'axios';
+import { backendAuthHost } from '../../utils/utils';
 
 @customElement('nav-bar')
 export class Navbar extends MobxLitElement {
@@ -21,10 +23,16 @@ export class Navbar extends MobxLitElement {
   toggleNavbarOpen() {
     this.isNavbarOpen = !this.isNavbarOpen;
   }
-  handleLogin() {
-    userStore.isloggedIn
-      ? alert('Some log out api calling')
-      : Router.go('login');
+  async handleLogin() {
+    if (userStore.isloggedIn) {
+      const { data } = await axios.get(`${backendAuthHost}/api/logout`, {
+        withCredentials: true,
+      });
+      userStore.deleteUser();
+      Router.go('/');
+    } else {
+      Router.go('login');
+    }
   }
   protected render(): unknown {
     return html`<div class=${classMap({
