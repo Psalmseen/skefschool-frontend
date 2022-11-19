@@ -16,7 +16,7 @@ export class LandingPage extends LitElement {
       <div class="content">
         <p>SKEF School online platform</p>
         <h1 class="main-text"><span> Your </span> Classroom</h1>
-        <div @click=${() => Router.go('/login')}>
+        <div @click=${() => Router.go('/dashboard')}>
           <button-component .label=${'Get Started'}></button-component>
         </div>
       </div>

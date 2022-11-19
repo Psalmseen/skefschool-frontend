@@ -67,10 +67,15 @@ export const dashboardPageStyles = css`
     text-transform: capitalize;
     letter-spacing: 1px;
     font-family: 'lora';
+    transition: all 0.7s;
   }
-  .detail-container:hover {
+  .link:hover {
     border-color: #f5a425;
     background-color: #fff;
+    cursor: pointer;
+  }
+  .detail2 {
+    line-height: 2;
   }
   .change-img {
     position: absolute;

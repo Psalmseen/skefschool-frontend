@@ -25,7 +25,7 @@ export class Navbar extends MobxLitElement {
   }
   async handleLogin() {
     if (userStore.isloggedIn) {
-      const { data } = await axios.get(`${backendAuthHost}/api/logout`, {
+      await axios.get(`${backendAuthHost}/api/logout`, {
         withCredentials: true,
       });
       userStore.deleteUser();
@@ -47,7 +47,11 @@ export class Navbar extends MobxLitElement {
       <div class=${classMap({
         logo: true,
         'logo-mob': this.isMobile,
-      })}><span> Skef </span> school</div>
+      })}
+      @click=${() =>
+        Router.go(
+          userStore.isloggedIn ? '/dashboard' : '/'
+        )}><span> Skef </span> school</div>
       <div class=${classMap({ 'd-none': !this.isMobile })}>
     
 <!-- STARTS HERE -->
@@ -91,3 +95,4 @@ export class Navbar extends MobxLitElement {
     </div>`;
   }
 }
+//  work on the add staff page

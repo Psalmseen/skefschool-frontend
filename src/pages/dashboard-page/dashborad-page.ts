@@ -23,15 +23,6 @@ export class DashboardPage extends MobxLitElement {
     if (!userStore.isloggedIn) {
       Router.go('login');
     }
-    // setInterval(async () => {
-    //   console.log('interval set');
-    //   const { data } = await axios.get(`${backendAuthHost}/token`, {
-    //     withCredentials: true,
-    //   });
-    //   console.log(data);
-    // }, 4 * 1000);
-    // cookies.remove('Name');
-    // console.log(Cookies);
   }
   handleChangeImage() {
     const input = document.createElement('input');
@@ -110,7 +101,32 @@ export class DashboardPage extends MobxLitElement {
             <h2 class="detail">${userStore.user?.role}</h2>
           </div>
         </div>
-        <div class="div2">this is just a test</div>
+        <div class="user-profile-detail">
+          ${userStore.user?.role === 'admin'
+            ? html` <div class="detail-container link">
+                  <h2 class="detail2">Staffs</h2>
+                </div>
+                <div
+                  @click=${() => Router.go('/add-staff')}
+                  class="detail-container link"
+                >
+                  <h2 class="detail2">Add staff</h2>
+                </div>`
+            : userStore.user?.role === 'staff'
+            ? html` <div class="detail-container link">
+                  <h2 class="detail2">Student</h2>
+                </div>
+                <div class="detail-container link">
+                  <h2 class="detail2">Add Student</h2>
+                </div>`
+            : html` <div class="detail-container link">
+                <h2 class="detail2">Result</h2>
+              </div>`}
+
+          <div class="detail-container link">
+            <h2 class="detail2">Change password</h2>
+          </div>
+        </div>
       </div>
     </div>`;
   }

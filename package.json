@@ -13,7 +13,7 @@
     "types"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "start": "netlify dev -p 5173",
     "preview": "tsc && vite build && vite preview",
     "build": "tsc && vite build"

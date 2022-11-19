@@ -35,6 +35,7 @@ export const navbarStyle = css`
     letter-spacing: 2px;
     word-spacing: 1rem;
     line-height: 1.1;
+    cursor: pointer;
   }
   .logo-mob {
     font-size: 1.7rem;

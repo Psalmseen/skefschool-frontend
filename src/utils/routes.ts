@@ -1,4 +1,5 @@
 import { Route, Router } from '@vaadin/router';
+import { action } from 'mobx';
 
 const routes: Route[] = [
   {
@@ -20,6 +21,13 @@ const routes: Route[] = [
         component: 'dashboard-page',
         action: async () => {
           await import('../pages/dashboard-page/dashborad-page');
+        },
+      },
+      {
+        path: '/add-staff',
+        component: 'add-staff-page',
+        action: async () => {
+          await import('../pages/add-staff/add-stuff');
         },
       },
     ],
