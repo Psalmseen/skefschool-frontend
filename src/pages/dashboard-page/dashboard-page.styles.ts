@@ -8,7 +8,7 @@ export const dashboardPageStyles = css`
   }
   .dashboard-page {
     font-family: poppins;
-    height: calc(100vh - 120px);
+    min-height: calc(100vh - 120px);
     background-color: #18233a;
   }
   .profile-img {
@@ -54,8 +54,8 @@ export const dashboardPageStyles = css`
     position: relative;
     padding: 3rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 0rem 2rem;
   }
 
   .detail-container {

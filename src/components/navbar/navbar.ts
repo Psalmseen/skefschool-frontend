@@ -96,3 +96,4 @@ export class Navbar extends MobxLitElement {
   }
 }
 //  work on the add staff page
+//  make the dashboard responsive
