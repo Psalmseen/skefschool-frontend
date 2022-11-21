@@ -35,7 +35,6 @@ export class LoginPage extends LitElement {
     this.hasInputError = this.hasEmailError || this.hasPasswordError;
   }
   async handleLogin() {
-    console.log('here');
     try {
       const { data } = await axios.post(
         `${backendAuthHost}/api/login`,
@@ -44,9 +43,8 @@ export class LoginPage extends LitElement {
         },
         { withCredentials: true }
       );
-      console.log({ data });
 
-      userStore.setIsLoggedin(true);
+      userStore.setIsLoggedin();
       await userStore.setUser({ ...data.user, accessToken: data.accessToken });
       Router.go('/dashboard');
     } catch (error) {

@@ -91,4 +91,20 @@ export const dashboardPageStyles = css`
   .change-img-open {
     transform: translateY(50px);
   }
+  @media screen and (max-width: 768px) {
+    .dashboard-content {
+      padding: 7rem 1rem 2rem;
+      grid-template-columns: 1fr;
+    }
+    .detail-container {
+      padding: 1rem;
+    }
+    .detail2,
+    .detail {
+      font-size: 16px;
+    }
+    .title {
+      font-size: 14px;
+    }
+  }
 `;

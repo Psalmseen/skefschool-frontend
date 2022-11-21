@@ -8,18 +8,14 @@ import student from '../../assets/student.jpg';
 import { classMap } from 'lit/directives/class-map.js';
 import { authFetch } from '../../utils/customAPI';
 import { IUser } from '../../utils/interfaces';
-import { backendAuthHost, backendHost } from '../../utils/utils';
-import axios from 'axios';
-// import Cookies from 'universal-cookie';
+import { backendHost } from '../../utils/utils';
 
-// const cookies = new Cookies();
 @customElement('dashboard-page')
 export class DashboardPage extends MobxLitElement {
   static styles?: CSSResultGroup = dashboardPageStyles;
   @state() isChangeImgOpen = false;
   connectedCallback(): void {
     super.connectedCallback();
-    console.log(userStore.isloggedIn);
     if (!userStore.isloggedIn) {
       Router.go('login');
     }
@@ -34,19 +30,8 @@ export class DashboardPage extends MobxLitElement {
         const file = files[0];
         const data = new FormData();
         data.append('image', file);
-        setInterval(async () => {
-          console.log('interval set');
-          const { data } = await axios.get(`${backendAuthHost}/token`, {
-            withCredentials: true,
-          });
-          console.log(data);
-        }, 4 * 1000);
 
-        const { data: fileUpload } = await authFetch.post(
-          '/upload-profile-image',
-          data
-        );
-        console.log(fileUpload);
+        await authFetch.post('/upload-profile-image', data);
         const {
           data: { user },
         } = await authFetch.get('/user');
@@ -103,22 +88,18 @@ export class DashboardPage extends MobxLitElement {
         </div>
         <div class="user-profile-detail">
           ${userStore.user?.role === 'admin'
-            ? html` <div class="detail-container link">
-                  <h2 class="detail2">Staffs</h2>
-                </div>
+            ? html`
                 <div
-                  @click=${() => Router.go('/add-staff')}
+                  @click=${() => Router.go('/staff')}
                   class="detail-container link"
                 >
-                  <h2 class="detail2">Add staff</h2>
-                </div>`
+                  <h2 class="detail2">Staffs</h2>
+                </div>
+              `
             : userStore.user?.role === 'staff'
             ? html` <div class="detail-container link">
-                  <h2 class="detail2">Student</h2>
-                </div>
-                <div class="detail-container link">
-                  <h2 class="detail2">Add Student</h2>
-                </div>`
+                <h2 class="detail2">Student</h2>
+              </div>`
             : html` <div class="detail-container link">
                 <h2 class="detail2">Result</h2>
               </div>`}

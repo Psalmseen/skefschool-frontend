@@ -1,6 +1,6 @@
 import { CSSResultGroup, html } from 'lit';
 import { MobxLitElement } from '@adobe/lit-mobx';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { Router } from '@vaadin/router';
 import { navbarStyle } from './navbar.styles';
 import { classMap } from 'lit/directives/class-map.js';
@@ -16,7 +16,17 @@ export class Navbar extends MobxLitElement {
   @property({ type: Boolean }) isMobile = false;
   @property({ type: String }) mobileQuery = '(max-width: 768px)';
   @property({ type: Boolean }) isNavbarOpen = false;
+  @state() getToken!: any;
+  connectedCallback() {
+    super.connectedCallback();
+    this.getToken = setInterval(() => {
+      axios.get(`${backendAuthHost}/token`, { withCredentials: true });
+    }, 4.8 * 60 * 1000);
+  }
 
+  disconnectedCallback(): void {
+    clearInterval(this.getToken);
+  }
   handleMobileQuery({ detail: { value } }: { detail: { value: boolean } }) {
     this.isMobile = value;
   }
@@ -29,6 +39,7 @@ export class Navbar extends MobxLitElement {
         withCredentials: true,
       });
       userStore.deleteUser();
+      clearInterval(this.getToken);
       Router.go('/');
     } else {
       Router.go('login');
