@@ -29,6 +29,13 @@ const routes: Route[] = [
           await import('../pages/staff-page/staff-page');
         },
       },
+      {
+        path: '/classes',
+        component: 'class-page',
+        action: async () => {
+          await import('../pages/class-page/class-page');
+        },
+      },
     ],
   },
   {

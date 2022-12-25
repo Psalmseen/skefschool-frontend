@@ -59,7 +59,56 @@ export const staffPageStyles = css`
   .add-btn:hover {
     background-color: #213154;
   }
+  .staff {
+    border: 1px solid #18233a;
+    display: grid;
+    grid-template-columns: max-content 1fr repeat(2, max-content);
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+  }
+  .staff > * {
+    padding: 0 0.5rem;
+  }
+  .staff__name {
+    text-transform: uppercase;
+  }
+  .staff__img-wrapper {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    text-transform: uppercase;
+    line-height: 1;
+    background-color: #18233a;
+    color: #fff;
+    display: grid;
+    place-content: center;
+    cursor: default;
+  }
+  .staff__class,
+  .staff__more {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .staff__class:hover,
+  .staff__more:hover {
+    transform: scale(1.1);
+    font-weight: 600;
+  }
   .d-none {
     display: none;
+  }
+  .staff__error {
+    position: fixed;
+    background-color: #cc2323;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    left: 50%;
+    top: 12vh;
+    transform: translateX(-50%);
   }
 `;

@@ -9,6 +9,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { authFetch } from '../../utils/customAPI';
 import { IUser } from '../../utils/interfaces';
 import { backendHost } from '../../utils/utils';
+import '../../components/input/input';
 
 @customElement('dashboard-page')
 export class DashboardPage extends MobxLitElement {
@@ -94,6 +95,12 @@ export class DashboardPage extends MobxLitElement {
                   class="detail-container link"
                 >
                   <h2 class="detail2">Staffs</h2>
+                </div>
+                <div
+                  @click=${() => Router.go('classes')}
+                  class="detail-container link"
+                >
+                  <h2 class="detail2">Classes</h2>
                 </div>
               `
             : userStore.user?.role === 'staff'

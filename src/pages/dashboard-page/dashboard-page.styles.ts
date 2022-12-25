@@ -91,6 +91,7 @@ export const dashboardPageStyles = css`
   .change-img-open {
     transform: translateY(50px);
   }
+
   @media screen and (max-width: 768px) {
     .dashboard-content {
       padding: 7rem 1rem 2rem;

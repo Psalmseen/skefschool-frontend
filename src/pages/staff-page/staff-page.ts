@@ -7,12 +7,20 @@ import { authFetch } from '../../utils/customAPI';
 import { staffPageStyles } from './staff-page.styles';
 import '../../components/input/input';
 import { CommonInput } from '../../components/input/input';
-import axios from 'axios';
+import { backendHost } from '../../utils/utils';
 
 @customElement('staff-page')
 export class StaffPage extends LitElement {
   static styles: CSSResultGroup = staffPageStyles;
-  @state() staffs = [];
+  @state() staffs:
+    | {
+        name: string;
+        email: string;
+        role: string;
+        imageUrl?: string;
+        clas?: string;
+      }[]
+    | [] = [];
   @state() staffCredentials = {
     name: '',
     email: '',
@@ -24,6 +32,8 @@ export class StaffPage extends LitElement {
     password: true,
   };
   @state() isAddStaffModalOpen = false;
+
+  @state() hasAddError = false;
   async connectedCallback() {
     super.connectedCallback();
     if (userStore.user?.role === 'staff') {
@@ -45,7 +55,7 @@ export class StaffPage extends LitElement {
     this.inputErrors = { ...this.inputErrors, [name]: value };
     console.log(this.inputErrors);
   }
-  handleAddStaff(e: Event) {
+  async handleAddStaff(e: Event) {
     e.preventDefault();
     let error = false;
     const inputs = this.shadowRoot?.querySelectorAll(
@@ -65,8 +75,28 @@ export class StaffPage extends LitElement {
       inputs[2].handleFocusOut();
     }
     if (error) return;
-    //  await authFetch.post('')
+    try {
+      await authFetch.post('/signup', {
+        ...this.staffCredentials,
+        role: 'staff',
+      });
+      this.toggleIsAddStaffModalOpen();
+    } catch (error) {
+      console.log(error);
+      this.popAddError();
+    }
+    try {
+      const {
+        data: { data },
+      } = await authFetch.get(`/staffs`);
+      this.staffs = data;
+    } catch (error) {
+      console.log(error);
+    }
     /*  Work on adding the staff both in thr frontend and at the backend
+    implement adding class to staff
+    Add the functionality of adding new claass by Admin
+    Admin can route to a staff dashboard 
      */
   }
   toggleIsAddStaffModalOpen() {
@@ -76,13 +106,37 @@ export class StaffPage extends LitElement {
     if (className.trim() !== 'add-staff-modal') return;
     this.isAddStaffModalOpen = false;
   }
+  popAddError() {
+    this.hasAddError = true;
+
+    setTimeout(() => {
+      this.hasAddError = false;
+    }, 3000);
+  }
   protected render(): unknown {
     return html`<div class="staff-page">
       ${this.staffs.length === 0
         ? html`<h1 class="no-staff">
             There is no staff added to this organization
           </h1>`
-        : html`<div>Implement the markup for a staffed company</div>`}
+        : html`<div>
+            ${this.staffs.map(
+              ({ name, imageUrl, clas }) => html`
+                <div class="staff">
+                  <div class="staff__img-wrapper">
+                    ${imageUrl
+                      ? html`<img src=${backendHost + imageUrl} />`
+                      : name[0]}
+                  </div>
+                  <div class="staff__name">${name}</div>
+                  <div class="staff__class">
+                    ${clas ? clas : 'High school 3A'}
+                  </div>
+                  <div class="staff__more">View more</div>
+                </div>
+              `
+            )}
+          </div>`}
 
       <div @click=${this.toggleIsAddStaffModalOpen} class="add-staff">+</div>
       <!-- Modal for adding staff -->
@@ -97,6 +151,7 @@ export class StaffPage extends LitElement {
           <common-input
             width="100%"
             inputPlaceholder="Staff Name"
+            errorText="Please enter staff name"
             @input-error=${(e: CustomEvent) => this.handleInputError(e, 'name')}
             @input-changed=${(e: CustomEvent) => this.handleInput(e, 'name')}
             isRequired
@@ -123,6 +178,13 @@ export class StaffPage extends LitElement {
           </button>
         </form>
       </div>
+      <!-- staff add error -->
+      <div
+        class=${classMap({ staff__error: true, 'd-none': !this.hasAddError })}
+      >
+        Error adding staff
+      </div>
     </div>`;
   }
 }
+//  Create a class page for performing crud oooooperations on classes

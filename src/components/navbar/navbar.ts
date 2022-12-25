@@ -21,7 +21,8 @@ export class Navbar extends MobxLitElement {
     super.connectedCallback();
     this.getToken = setInterval(() => {
       axios.get(`${backendAuthHost}/token`, { withCredentials: true });
-    }, 4.8 * 60 * 1000);
+    }, 10 * 1000);
+    // Change the get token timer to 4.8 minute for tpoduction
   }
 
   disconnectedCallback(): void {
